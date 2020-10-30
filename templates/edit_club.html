@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}编辑社团{% endblock %}
+{% block page_header %}
+    <h1 class="title">社团管理</h1>
+    <ol class="breadcrumb">
+        <li><a href="index.html">社团管理</a></li>
+        <li class="active">编辑社团</li>
+    </ol>
+{% endblock %}
+{% block main_content %}
+    <div class="row">
+        <div class="col-md-12 col-lg-6 col-lg-offset-3">
+            <div class="panel panel-default">
+                <div class="panel-title">
+                    添加社团
+                </div>
+                <div class="panel-body">
+                    <form method="post">
+                        <div class="form-group">
+                            <label for="input1" class="form-label">社团名称</label>
+                            <input type="text" name="name" class="form-control" id="name" value="{{ one_club.name }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="input2" class="form-label">指导老师</label>
+                            <input type="text" name="teacher" class="form-control" id="teacher"
+                                   value="{{ one_club.teacher }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="input3" class="form-label">社长</label>
+                            <input type="text" name="president" class="form-control" id="president"
+                                   value="{{ one_club.president }}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">社团描述</label>
+                            <textarea class="form-control" name="describe" rows="3"
+                                      id="describe">{{ one_club.describe }}</textarea>
+                        </div>
+                        <button type="submit" class="btn btn-default">保存编辑</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
