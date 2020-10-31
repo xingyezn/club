@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block title %}申请列表{% endblock %}
+{% block page_header %}
+    <h1 class="title">社团管理</h1>
+    <ol class="breadcrumb">
+        <li><a href="index.html">社团管理</a></li>
+        <li class="active">申请列表</li>
+    </ol>
+{% endblock %}
+
+
+{% block main_content %}
+
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-title">
+                社团管理
+            </div>
+            <div class="panel-body table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr class="text-center">
+                        <td>申请ID</td>
+                        <td>社团名称</td>
+                        <td>社团指导师</td>
+                        <td>社团社长</td>
+                        <td>社团描述</td>
+                        {% if g.user.role_permission !=3 %}
+                            <td>申请人</td>{% endif %}
+                        <td>申请状态</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for one_apply in all_apply %}
+                        <tr class="text-center">
+                            <td>{{ one_apply.id }}</td>
+                            <td>{{ one_apply.join_target_club.name }}</td>
+                            <td>{{ one_apply.join_target_club.teacher }}</td>
+                            <td>{{ one_apply.join_target_club.president }}</td>
+                            <td>{{ one_apply.join_target_club.describe }}</td>
+                            {% if g.user.role_permission !=3 %}
+                                <td>
+                                    <a href="{{ url_for('show_user',user_id=one_apply.join_user.id) }}">
+                                        {{ one_apply.join_user.username }}
+                                    </a>
+                                </td>{% endif %}
+                            <td>{% if one_apply.agree ==0 %}
+                                {% if g.user.role_permission ==3 %}
+                                    审核中
+                                {% else %}
+                                    <a href="{{ url_for('agree_apply',apply_id = one_apply.id,agree=1) }}"
+                                       class="btn btn-sm btn-success">同意</a>
+                                    <a href="{{ url_for('agree_apply',apply_id = one_apply.id,agree=-1) }}"
+                                       class="btn btn-sm btn-danger">拒绝</a>
+                                {% endif %}
+                            {% elif one_apply.agree==1 %}申请通过{% else %}
+                                申请未通过{% endif %}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+    <!-- End Panel -->
+{% endblock %}

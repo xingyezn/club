@@ -20,6 +20,7 @@ python manage.py create_role
 python manage.py create_user -u 徐浩鑫 -p 123456 -e 123@qq.com -r 1 -s 华东师范大学 -a 23 -g 1 -d 18
 python manage.py create_user -u 徐浩鑫 -p 123456 -e 1234@qq.com -r 2 -s 华东师范大学 -a 23 -g 1 -d 18
 python manage.py create_user -u 曾志通 -p 123456 -e 12345@qq.com -r 3 -s 复兴中学 -a 14 -g 1 -d 8
+python manage.py create_user -u 绍兴仁 -p 123456 -e 12346@qq.com -r 3 -s 复兴中学 -a 14 -g 1 -d 8
 '''
 
 '''

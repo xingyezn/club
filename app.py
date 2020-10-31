@@ -133,12 +133,82 @@ class AddUserView(views.MethodView):
 app.add_url_rule('/register', view_func=AddUserView.as_view('register'))
 
 
+@app.route('/user_list')
+@login_required
+def user_list():
+    all_user = User.query.filter().order_by(User.join_time.desc())
+    context = {'user_list': all_user}
+    return render_template('user_list.html', **context)
+
+
+@app.route('/show_user/<user_id>')
+@login_required
+def show_user(user_id):
+    one_user = User.query.filter_by(id=user_id).first()
+    context = {'one_user': one_user}
+    return render_template('show_user.html', **context)
+
+
 @app.route('/club_list')
 @login_required
 def club_list():
+    if g.user.role_permission == 3:
+        context = {'all_club': g.user.user_club, 'list_type': 'student_show'}
+        return render_template('club_list.html', **context)
+    else:
+        all_club = Club.query.filter().order_by(Club.join_time.desc())
+        context = {'all_club': all_club, 'list_type': 'teacher_show'}
+        return render_template('club_list.html', **context)
+
+
+@app.route('/join_club_list')
+@login_required
+def join_club_list():
     all_club = Club.query.filter().order_by(Club.join_time.desc())
-    context = {'all_club': all_club}
+    not_apply_club = []
+    for one_club in all_club:
+        if g.user not in one_club.club_user:
+            not_apply_club.append(one_club)
+    context = {'all_club': not_apply_club, 'list_type': 'join'}
     return render_template('club_list.html', **context)
+
+
+
+@app.route('/my_apply_club_list')
+@login_required
+def my_apply_club_list():
+    if g.user.role_permission == 3:
+        context = {'all_apply': g.user.user_join}
+        return render_template('apply_list.html', **context)
+    else:
+        all_apply = JoinClub.query.filter().order_by(JoinClub.join_time.desc())
+        context = {'all_apply': all_apply}
+        return render_template('apply_list.html', **context)
+
+
+@app.route('/agree_apply/<apply_id>/<agree>')
+@login_required
+def agree_apply(apply_id, agree):
+    if g.user.role_permission != 3:
+        one_apply = JoinClub.query.get(apply_id)
+        one_apply.agree = int(agree)
+        if int(agree) == 1:
+            print('加入')
+            one_apply.join_target_club.club_user.append(one_apply.join_user)
+        db.session.commit()
+        return redirect(url_for('my_apply_club_list'))
+
+
+@app.route('/join_club/<club_id>')
+@login_required
+def join_club(club_id):
+    one_club = Club.query.filter_by(id=club_id).first()
+    one_join_club = JoinClub()
+    db.session.add(one_join_club)
+    one_club.club_join.append(one_join_club)
+    g.user.user_join.append(one_join_club)
+    db.session.commit()
+    return redirect(url_for('my_apply_club_list'))
 
 
 @app.route('/add_club', methods=['GET', 'POST'])
@@ -197,7 +267,11 @@ def delete_club(club_id):
 @login_required
 def show_club(club_id):
     one_club = Club.query.filter_by(id=club_id).first()
-    context = {'one_club': one_club}
+    join_club_is = JoinClub.query.filter_by(user_id=g.user.id, club_id=club_id).first()
+    join_stat = 0
+    if join_club_is:
+        join_stat = 1
+    context = {'one_club': one_club, 'join_stat': join_stat}
     return render_template('show_club.html', **context)
 
 

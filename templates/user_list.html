@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}用户列表{% endblock %}
+{% block page_header %}
+    <h1 class="title">用户管理</h1>
+    <ol class="breadcrumb">
+        <li><a href="index.html">用户管理</a></li>
+        <li class="active">用户列表</li>
+    </ol>
+{% endblock %}
+
+
+{% block main_content %}
+
+    <div class="col-md-12">
+        <div class="panel panel-default">
+            <div class="panel-title">
+                用户列表
+            </div>
+            <div class="panel-body table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr class="text-center">
+                        <td>用户ID</td>
+                        <td>用户姓名</td>
+                        <td>用户邮箱</td>
+                        <td>用户身份</td>
+                        <td>操作</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for one_user in user_list %}
+                        <tr class="text-center">
+                            <td>{{ one_user.id }}</td>
+                            <td>{{ one_user.username }}</td>
+                            <td>{{ one_user.email }}</td>
+                            <td>{{ one_user.user_role.name }}</td>
+                            <td>
+                                <a href="{{ url_for('show_user',user_id=one_user.id) }}" class="btn btn-sm btn-info">查看</a>
+{#                                <a href="{{ url_for('edit_user',user_id=one_user.id) }}" class="btn btn-sm btn-warning">编辑</a>#}
+{#                                <a href="{{ url_for('delete_user',user_id=one_user.id) }}" class="btn btn-sm btn-danger">删除</a>#}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+    <!-- End Panel -->
+{% endblock %}

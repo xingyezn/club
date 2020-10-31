@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block title %}个人资料{% endblock %}
+{% block page_header %}
+    <h1 class="title">个人资料</h1>
+    <ol class="breadcrumb">
+        <li class="active">个人资料</li>
+    </ol>
+{% endblock %}
+
+
+{% block main_content %}
+
+
+<div class="social-profile">
+    <div class="social-top">
+      <div class="profile-left">
+        <img src="../static/img/logo2.png" alt="img" class="profile-img">
+        <h1 class="name">{{ one_user.username }} <a href="#" class="btn btn-success"><i class="fa fa-plus"></i>添加好友</a></h1>
+        <p class="profile-text">{{ one_user.user_role.name }}</p>
+      </div>
+    <ul class="social-stats">
+      <li><b>166</b>关注</li>
+      <li><b>3</b>粉丝</li>
+      <li><b>10</b>动态</li>
+    </ul>
+
+    </div>
+    <div class="social-content clearfix">
+      <div class="col-md-6 col-lg-8 col-lg-offset-2">
+          <div class="panel panel-default">
+            <div class="panel-body status">
+              <ul class="panel-tools panel-tools-hover">
+                <li><a class="icon expand-tool"><i class="fa fa-expand"></i></a></li>
+                <li><a class="icon closed-tool"><i class="fa fa-times"></i></a></li>
+              </ul>
+              <div class="who clearfix">
+                <img src="../static/img/profileimg4.png" alt="img">
+                <span class="name"><b>Egemem Ka</b> shared a post</span>
+                <span class="from"><b>1 days ago</b> via Mobile, New York</span>
+              </div>
+              <div class="text">Spaceflights cannot be stopped. This is not the work of any one man or even a group of men. It is a historical process which mankind is carrying out in accordance with the natural laws of human development.</div>
+              <ul class="links">
+                <li><a href="#"><i class="fa fa-thumbs-o-up"></i> Like</a></li>
+                <li><a href="#"><i class="fa fa-comment-o"></i> Comment</a></li>
+                <li><a href="#"><i class="fa fa-share-square-o"></i> Share</a></li>
+              </ul>
+              <ul class="comments">
+                <li>
+                  <img src="../static/img/profileimg2.png" alt="img">
+                  <span class="name">John Doe</span>
+                  It is a historical process which mankind is carrying out in accordance with the natural laws of human development.
+                </li>
+                <li>
+                  <img src="../static/img/profileimg3.png" alt="img">
+                  <span class="name">William Throwing</span>
+                  Seems cool.
+                </li>
+                <li>
+                  <img src="../static/img/profileimg.png" alt="img">
+                  <input type="text" class="form-control" placeholder="Post your comment...">
+                </li>
+              </ul>
+            </div>
+          </div>
+        <!-- End Post -->
+      </div>
+      <!-- End Left -->
+    </div>
+  </div>
+
+{% endblock %}
